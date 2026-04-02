@@ -23,8 +23,8 @@ function GroceryItemCard({ item }: { item: IGrocery }) {
   const dispatch = useDispatch<AppDispatch>();
   const { cartData } = useSelector((state: RootState) => state.cart);
 
-  // Compare as strings to fix TypeScript error
-  const cartItem = cartData.find(i => i._id.toString() === item._id.toString());
+  // _id is string now, no need for toString()
+  const cartItem = cartData.find(i => i._id === item._id);
 
   return (
     <motion.div
@@ -77,7 +77,7 @@ function GroceryItemCard({ item }: { item: IGrocery }) {
             <button
               className="w-7 h-7 flex items-center justify-center rounded-full bg-green-100
               hover:bg-green-200 transition-all"
-              onClick={() => dispatch(decreaseQuantity(item._id.toString()))}
+              onClick={() => dispatch(decreaseQuantity(item._id))}
             >
               <Minus size={16} className="text-green-700" />
             </button>
@@ -87,7 +87,7 @@ function GroceryItemCard({ item }: { item: IGrocery }) {
             <button
               className="w-7 h-7 flex items-center justify-center rounded-full bg-green-100
               hover:bg-green-200 transition-all"
-              onClick={() => dispatch(increaseQuantity(item._id.toString()))}
+              onClick={() => dispatch(increaseQuantity(item._id))}
             >
               <Plus size={16} className="text-green-700" />
             </button>
@@ -99,4 +99,3 @@ function GroceryItemCard({ item }: { item: IGrocery }) {
 }
 
 export default GroceryItemCard;
-
