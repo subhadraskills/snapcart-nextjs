@@ -58,7 +58,7 @@ useEffect(() => {
     setAddress(prev => ({
       ...prev,
       fullName: userData?.name || "",
-      mobile: String(userData?.mobile || "")
+      mobile: userData.mobile?.toString() || ""
     }))
   }
 }, [userData])

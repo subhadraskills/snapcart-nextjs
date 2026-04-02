@@ -22,7 +22,9 @@ interface IGrocery {
 function GroceryItemCard({ item }: { item: IGrocery }) {
   const dispatch = useDispatch<AppDispatch>();
   const { cartData } = useSelector((state: RootState) => state.cart);
-  const cartItem = cartData.find(i => i._id == item._id);
+
+  // Compare as strings to fix TypeScript error
+  const cartItem = cartData.find(i => i._id.toString() === item._id.toString());
 
   return (
     <motion.div
@@ -46,20 +48,12 @@ function GroceryItemCard({ item }: { item: IGrocery }) {
 
       {/* CONTENT */}
       <div className="p-4 flex flex-col flex-1">
-        <p className="text-xs text-gray-500 font-medium mb-1">
-          {item.category}
-        </p>
-
+        <p className="text-xs text-gray-500 font-medium mb-1">{item.category}</p>
         <h3 className="font-semibold text-gray-800">{item.name}</h3>
 
         <div className="flex items-center justify-between mt-3">
-          <span className="text-xs font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded-full">
-            {item.unit}
-          </span>
-
-          <span className="text-green-700 font-bold text-lg">
-            ₹{item.price}
-          </span>
+          <span className="text-xs font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded-full">{item.unit}</span>
+          <span className="text-green-700 font-bold text-lg">₹{item.price}</span>
         </div>
 
         {!cartItem ? (
@@ -83,19 +77,17 @@ function GroceryItemCard({ item }: { item: IGrocery }) {
             <button
               className="w-7 h-7 flex items-center justify-center rounded-full bg-green-100
               hover:bg-green-200 transition-all"
-              onClick={() => dispatch(decreaseQuantity(item._id))}
+              onClick={() => dispatch(decreaseQuantity(item._id.toString()))}
             >
               <Minus size={16} className="text-green-700" />
             </button>
 
-            <span className="text-sm font-semibold text-gray-800">
-              {cartItem.quantity}
-            </span>
+            <span className="text-sm font-semibold text-gray-800">{cartItem.quantity}</span>
 
             <button
               className="w-7 h-7 flex items-center justify-center rounded-full bg-green-100
               hover:bg-green-200 transition-all"
-              onClick={() => dispatch(increaseQuantity(item._id))}
+              onClick={() => dispatch(increaseQuantity(item._id.toString()))}
             >
               <Plus size={16} className="text-green-700" />
             </button>
@@ -107,6 +99,4 @@ function GroceryItemCard({ item }: { item: IGrocery }) {
 }
 
 export default GroceryItemCard;
-
-
 
