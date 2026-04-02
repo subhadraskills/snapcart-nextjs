@@ -41,20 +41,29 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const session = await auth();
+
     if (!session?.user?.email) {
-      console.log("No session or user found", session);
-      return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+      return NextResponse.json(
+        { message: "User is not authenticated" },
+        { status: 401 }
+      );
     }
 
     const user = await User.findOne({ email: session.user.email }).select("-password");
+
     if (!user) {
-      console.log("User not found for email", session.user.email);
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "User not found" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(user, { status: 200 });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in /api/me GET:", error);
-    return NextResponse.json({ message: `Server error: ${error}` }, { status: 500 });
+    return NextResponse.json(
+      { message: `Server error: ${error.message || error}` },
+      { status: 500 }
+    );
   }
 }
