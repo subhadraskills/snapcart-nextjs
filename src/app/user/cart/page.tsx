@@ -69,14 +69,14 @@ function CartPage() {
                   rounded-xl overflow-hidden bg-gray-50'>
                     <Image
                       src={item.image}
-                      alt={item.name }
+                      alt={item.category}
                       fill
                       className='object-contain p-3 transition-transform duration-300 hover:scale-105'
                     />
                   </div>
 
                   <div className='mt-4 sm:mt-0 sm:ml-4 flex-1 text-center sm:text-left'>
-                    <h3 className='text-base sm:text-lg font-semibold text-gray-800 line-clamp-1'>{item.name}</h3>
+                    <h3 className='text-base sm:text-lg font-semibold text-gray-800 line-clamp-1'>{item.category}</h3>
                     <p className='text-xs sm:text-sm text-gray-500'>{item.unit}</p>
                     <p className='text-green-700 font-bold mt-1 text-sm sm:text-base'>₹{Number(item.price) * item.quantity}</p>
                   </div>
